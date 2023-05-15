@@ -11,7 +11,10 @@ https://www.printables.com/model/263718-honeycomb-library-openscad
 
 runlevel = 1;
 $fn = 32;
+//which side
 side = "left"; //[left, right, center]
+//do you want a back on it
+back = false;
 //distance from base to underside of shelf
 leg_z = 100;
 //front edge thickness of leg
@@ -58,6 +61,14 @@ module create_honey() {
     }
 }
 
+module top_back() {
+    //this was entirely an afterthought, so it's a bit of a hack
+    if (back == true) {
+        translate([0,leg_y-wallsize,leg_z]) 
+            cube([leg_x, wallsize, shelf_z]);
+    }
+}
+
 module shelf_edgy() {
     difference() {
         translate([0,0,leg_z])
@@ -72,7 +83,9 @@ module shelf_edgy() {
          translate([0, wallsize, leg_z])
             cube([leg_x, leg_y-wallsize, shelf_z]);           
         }
+
     }
+    top_back();
 }
 
 
@@ -134,6 +147,15 @@ if (runlevel == 1) {
             join_screw();
         }
     }
+    echo("***********************");
+    echo("PLEASE READ THIS");
+    echo("if you have a back on the leg, the shelf size will be smaller than the leg size");
+    echo("consider this when designing your shelf supports");
+    echo("WALLSIZE = ", wallsize, "because nozzle size is ", nozzle_size, "and walls is ", walls);
+    echo();
+    echo("meaning if you have a front and back, the shelf will be ", leg_y-(wallsize*2), "mm in depth from front to back, becase there are two walls");
+    echo("***********************");
+
 }
 if (runlevel == 2) {
     render() {
