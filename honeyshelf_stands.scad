@@ -297,11 +297,20 @@ if (runlevel == 0) {
     Create_screw_supprts();
 } else if (runlevel == 99) {
     //normal mode
+    Create_leg();
+    //translate([0, wallsize, wallsize])
+    Create_emboss();
+    Create_shelf_support();
+    Create_screw_supprts();
+} else if (runlevel == 100) {
+    //normal mode
     render() {
+        union() {
             Create_leg();
             //translate([0, wallsize, wallsize])
             Create_emboss();
             Create_shelf_support();
             Create_screw_supprts();
+        }
     }
 }
